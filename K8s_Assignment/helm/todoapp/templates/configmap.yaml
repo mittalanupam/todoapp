@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config
+  namespace: {{ .Values.namespace }}
+data:
+  MYSQL_HOST: "{{ .Values.db.serviceurl }}"
+  MYSQL_PORT: "{{ .Values.db.port }}"
+  MYSQL_DB: "{{ .Values.db.database }}"

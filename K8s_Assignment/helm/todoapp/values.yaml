@@ -1,0 +1,12 @@
+namespace: todo
+db:
+  port: 3360
+  database: tododb
+  serviceurl: mysqlsvc
+  root_username: root
+  root_password: p@ssword
+  username: todo
+  password: p@ssword
+app:
+  port: 8081
+  target_port: 8090

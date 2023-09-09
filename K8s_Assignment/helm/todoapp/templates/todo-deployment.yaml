@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-deployment
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 3
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: todo
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: todo
+    spec:
+      containers:
+      - name: todo
+        image: mittalanupam/todoassign:1.0
+        env:
+          - name: MYSQL_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: config
+                key: MYSQL_HOST
+          - name: MYSQL_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: config
+                key: MYSQL_PORT
+          - name: MYSQL_DB
+            valueFrom:
+              configMapKeyRef:
+                name: config
+                key: MYSQL_DB
+          - name: MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                name: secret
+                key: MYSQL_USER
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: secret
+                key: MYSQL_PASSWORD
+        ports:
+        - containerPort: {{ .Values.app.port }}
